@@ -10,8 +10,8 @@
 // Yel1      R5                A6           S2            D6          1
 // Grn1      R6                A7           S3            D5          2
 //
-#define Version "Semaphore 3.1 2023/02/11 10:00"
-//   -- fix BounceRed = 0
+#define Version "Semaphore 3.1a 2023/02/12 16:00"
+//   -- fix BounceRed - refix 'a' to allow slow movement
 // #define Version "Semaphore 3.0 2022/06/05 10:00"
 //   -- optionally use VarSpeedServo library
 //   more use of #if
@@ -330,7 +330,7 @@ void loop() {
       Posn  [iset]    = potval;
       PosnTM[iset]    = millis();
 // Chg 2.2 vvvvvvvvvvvvv
-    if (ibutn == ioff) // RED - call BounceRed
+    if (ibutn == ioff && BounceArc > 0) // RED - call BounceRed
       {BounceRed(iset);}
 	else // not RED
 	{
