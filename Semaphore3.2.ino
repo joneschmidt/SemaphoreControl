@@ -22,13 +22,16 @@
 // Yel1      R5                A6           S2            D6          1
 // Grn1      R6                A7           S3            D5          2
 //
-#define Version "Semaphore 3.2 2023/08/26 17:00"
+#define Version "Semaphore 3.2a 2023/10/14"
+// fix go to red if bounce = 0
+//
+// #define Version "Semaphore 3.2 2023/08/26 17:00"
 // fix definition of FullArc to 190 degrees for best granulation
 // fix bounce to use last position either yellow or green
 // add YelOverun for moving past yellow position & return
 // add YelOverunDlyMS to allow time for the overrun move
 //
-#define Version "Semaphore 3.1a 2023/02/12 16:00"
+// #define Version "Semaphore 3.1a 2023/02/12 16:00"
 //   -- fix BounceRed - refix 'a' to allow slow movement
 // #define Version "Semaphore 3.0 2022/06/05 10:00"
 //   -- fix BounceRed - refix 'a' to allow slow movement
@@ -64,7 +67,7 @@
 // BounceArc - factor for arc of bounce 
 //    - (last-red)/BounceArc
 //    - 0 means no bounce
-#define BounceArc 2
+#define BounceArc 0
 //    BounceDly - delay between moves
 #define BounceDly 150
 // Chg 2.2 ^^^^^^^^^^^^
@@ -144,7 +147,6 @@ void LEDlert(int Patrn, int Repet) {
 void BounceRed(int Iset) {
 int Ioff, nxtpos, Frmval, Redval;
   // return to Red causes bounce
-  #if BounceArc > 0 
   Ioff = Iset * 3;
   if (LastState[Iset] == Ioff + YEL)
     {Frmval = analogRead(PotPins[Ioff+YEL]);}
@@ -156,6 +158,7 @@ int Ioff, nxtpos, Frmval, Redval;
     Redval = 1023 - Redval;}
   Frmval = map(Frmval, 0, 1023, 0, FullArc);
   Redval = map(Redval, 0, 1023, 0, FullArc);
+  #if BounceArc > 0 
   nxtpos = (Frmval - Redval)/BounceArc;
     #if Trace > 0
       Serial.print("Bounce Frm: ");
